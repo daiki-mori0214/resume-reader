@@ -35,7 +35,7 @@ if uploaded_file:
 
     with st.spinner("🧠 AIが分析中..."):
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4-turbo",  # ←ここがポイント！
             messages=[
                 {"role": "system", "content": "あなたはハイレベルなレジュメ読み解きのAIです。"},
                 {"role": "user", "content": prompt_template}
@@ -49,3 +49,4 @@ if uploaded_file:
 
     st.markdown("---")
     st.caption("※このツールはβ版です。分析結果の活用はご自身の判断にてお願いします。")
+
