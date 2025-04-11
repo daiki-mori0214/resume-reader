@@ -1,5 +1,5 @@
 import streamlit as st
-from openai import OpenAI
+import openai
 import pdfplumber
 
 st.set_page_config(page_title="ResuMe Reader AI", layout="centered")
@@ -7,7 +7,7 @@ st.set_page_config(page_title="ResuMe Reader AI", layout="centered")
 st.title("📄 ResuMe Reader AI")
 st.subheader("アップロードされたレジュメをもとに、候補者の適性・ポジション・特性を分析")
 
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 uploaded_file = st.file_uploader("レジュメファイルをアップロード (PDFのみ)", type=["pdf"])
 
@@ -34,8 +34,8 @@ if uploaded_file:
 """
 
     with st.spinner("🧠 AIが分析中..."):
-        response = client.chat.completions.create(
-            model="gpt-4-turbo",  # ←ここがポイント！
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "あなたはハイレベルなレジュメ読み解きのAIです。"},
                 {"role": "user", "content": prompt_template}
