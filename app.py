@@ -49,15 +49,3 @@ if uploaded_file:
 
     st.markdown("---")
     st.caption("※このツールはβ版です。分析結果の活用はご自身の判断にてお願いします。")
-
-                {"role": "user", "content": prompt_template}
-            ]
-        )
-        result = response.choices[0].message.content
-
-    st.markdown("---")
-    st.subheader("🧠 分析結果")
-    st.markdown(result)
-
-    st.markdown("---")
-    st.caption("※このツールはβ版です。分析結果の活用はご自身の判断にてお願いします。")
