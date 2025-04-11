@@ -34,19 +34,26 @@ if uploaded_file:
 """
 
     with st.spinner("🧠 AIが分析中..."):
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "あなたはハイレベルなレジュメ読み解きのAIです。"},
-                {"role": "user", "content": prompt_template}
-            ]
-        )
-        result = response.choices[0].message.content
+        try:
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "あなたはハイレベルなレジュメ読み解きのAIです。"},
+                    {"role": "user", "content": prompt_template}
+                ]
+            )
+            result = response.choices[0].message.content
 
-    st.markdown("---")
-    st.subheader("🧠 分析結果")
-    st.markdown(result)
+            st.markdown("---")
+            st.subheader("🧠 分析結果")
+            st.markdown(result)
+
+        except openai.error.RateLimitError:
+            st.error("⚠️ OpenAIのリクエスト上限に達しました。数分後に再実行してください。")
+        except openai.error.AuthenticationError:
+            st.error("⚠️ APIキーが無効です。Secrets設定を確認してください。")
+        except Exception as e:
+            st.error(f"⚠️ 予期しないエラーが発生しました：{e}")
 
     st.markdown("---")
     st.caption("※このツールはβ版です。分析結果の活用はご自身の判断にてお願いします。")
-
